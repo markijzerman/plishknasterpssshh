@@ -14,9 +14,11 @@ for sound in jfile:
     for attribute, value in sound.items():
         if attribute == "Language":
             curLanguage = value
-            print(curLanguage)
         else:
             curDefinition = attribute
             curSound = value
-            print(curDefinition)
-            print(curSound)
+            curComplete = [curSound, curDefinition, curLanguage]
+            # hier er een nieuwe dict van maken en checken of iets None is.
+            # print (curComplete)
+            if curComplete[0] != None:
+                print (curSound, curDefinition, curLanguage)
