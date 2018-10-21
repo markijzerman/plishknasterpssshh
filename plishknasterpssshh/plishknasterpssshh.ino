@@ -4,17 +4,20 @@
 
  Adafruit_NeoPixel pixels = Adafruit_NeoPixel(1, 9, NEO_GRB + NEO_KHZ800);
 
- // Class declaration
- Morse morse(13, 10);
- SimpleTimer timer;
-
- // Set values
+  // Set values
  int readCounter = 0;
  int numOfStrings = 5;
+ int WPM = 15;
+ int flashPin = 13;
+
+ // Class declaration
+ Morse morse(flashPin, WPM); // first nr is pin, second is speed. higher is faster. WPM.
+ SimpleTimer timer;
 
  // Set the strings first
 #include <avr/pgmspace.h>
-const char string_0[] PROGMEM = "/////////////////////////////////////////////////////////////////";
+// max length: /////////////////////////////////////////////////////////////////
+const char string_0[] PROGMEM = "Dit is zin een";
 const char string_1[] PROGMEM = "Dit is zin twee";
 const char string_2[] PROGMEM = "Dit is zin drie";
 const char string_3[] PROGMEM = "Dit is zin vier";
@@ -62,11 +65,17 @@ char buffer[65];
  void loop() {
    timer.run();
    // if the board is not busy, send next message
+
    if (morse.busy == 0) {
-    for (int i = 0; i < numOfStrings; i++) {
-    strcpy_P(buffer, (char*)pgm_read_word(&(string_table[i]))); // Necessary casts and dereferencing, just copy. 
-    Serial.println( buffer );
-    delay( 500 );
-    }
+       if (readCounter < numOfStrings) {
+        strcpy_P(buffer, (char*)pgm_read_word(&(string_table[readCounter]))); // Necessary casts and dereferencing, just copy.
+        morse.send(buffer); 
+        Serial.println( buffer );
+        readCounter ++;
+        
+        if (readCounter >= numOfStrings) {
+          readCounter = 0;
+        }
+      }
    }
  }
