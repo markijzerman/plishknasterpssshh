@@ -11,8 +11,11 @@
  int flashPin = 13;
 
  // Class declaration
- Morse morse(flashPin, WPM); // first nr is pin, second is speed. higher is faster. WPM.
+ Morse morse(flashPin, WPM);
  SimpleTimer timer;
+
+ /////////// /////////// /////////// /////////// ///////////
+  /////////// /////////// /////////// /////////// ///////////
 
  // Set the strings first
 #include <avr/pgmspace.h>
@@ -36,6 +39,8 @@ const char * const string_table[] PROGMEM =
 
 // set max characters. 65 characters per sentence. otherwise it will NOT start!
 char buffer[65];
+
+
 
  // a function to be executed periodically
  void repeatMe()
@@ -68,14 +73,15 @@ char buffer[65];
 
    if (morse.busy == 0) {
        if (readCounter < numOfStrings) {
-        strcpy_P(buffer, (char*)pgm_read_word(&(string_table[readCounter]))); // Necessary casts and dereferencing, just copy.
+        strcpy_P(buffer, (char*)pgm_read_word(&(string_table[random(readCounter)]))); // Necessary casts and dereferencing, just copy.
         morse.send(buffer); 
         Serial.println( buffer );
         readCounter ++;
-        
-        if (readCounter >= numOfStrings) {
-          readCounter = 0;
-        }
+
+        // if it's over, repeat!
+//        if (readCounter >= numOfStrings) {
+//          readCounter = 0;
+//        }
       }
    }
  }
