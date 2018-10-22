@@ -4,7 +4,7 @@ outFile = "PROGMEMOUT.txt"
 
 f = open(outFile, "w")
 
-with open("ALL_ONO.txt", "r") as ins:
+with open("ALL_ONO_lesser.txt", "r") as ins:
     mylines = ins.read().splitlines()
     array = []
     for line in mylines:
