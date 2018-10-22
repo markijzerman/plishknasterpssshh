@@ -10,6 +10,7 @@ outFile = "listOut.txt"
 listSound = sys.argv[2]
 
 soup = BeautifulSoup(open(inFile).read(),'lxml')
+f = open(outFile, "a")
 
 for ul in soup:
     for li in ul.findAll('li'):
@@ -28,4 +29,4 @@ for ul in soup:
                             curComplete[0] = newString
                     # print (curComplete[0], curComplete[1], curComplete[2])
                     print ("%s (%s) (%s)" % (curComplete[0], curComplete[1], curComplete[2]))
-        
+                    f.write("%s (%s) (%s)\n" % (curComplete[0], curComplete[1], curComplete[2]))
