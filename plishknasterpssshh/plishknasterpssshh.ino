@@ -6,7 +6,7 @@
 
   // Set values
  int readCounter = 0;
- int WPM = 60;
+ int WPM = 15;
  int flashPin = 13;
 
  // Class declaration
